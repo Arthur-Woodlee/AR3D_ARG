@@ -67,3 +67,90 @@ ARViewController delegates rendering via GraphRendererRegistry. No changes are n
 Done!
 
 Your new graph type is now fully integrated. It will be automatically rendered when selected in GraphingConfiguration.
+
+Here is a practical example. Initially, the system only supported a scatter plot graph with axis lines. A request was made to allow the graph to be rendered without axis lines. Instead of adding a toggle or button to remove them, it was decided to implement a second graph renderer that excluded the axis lines entirely. To avoid duplicating logic from the original scatter plot implementation, the shared code was refactored to comply with the Single Responsibility Principle (SRP) and Open–Closed Principle (OCP).
+
+Extension Guide: Adding a Gridless Scatter Plot Renderer
+
+This guide walks you through adding a new graph type `scatterPlotWithoutGrid` to the AR3D_ARG system.
+
+Step 1: Define the New Graph Type
+
+Open `GraphType.swift` and add a new case to the enum:
+
+enum GraphType: String, Codable {
+    case scatterPlot
+    case scatterPlotWithoutGrid
+    // case surfacePlot
+    // case histogramPlot
+}
+
+This allows the system to recognize the new graph type.
+
+Step 2: Create the New Renderer
+
+Create a new struct in `AR3D_ARG_GraphRenderers.swift`:
+
+struct ScatterPlotNoGridRenderer: GraphRenderer {
+    func buildGraph(from configuration: GraphingConfiguration, in sceneView: ARSCNView) -> (SCNNode, [SCNNode: [String: Any]]) {
+        return buildScatterPlot(from: configuration, includeGrid: false)
+    }
+}
+This uses shared logic but disables grid rendering.
+
+Step 3: Refactor Shared Logic
+
+Ensure `buildScatterPlot` and `addAxesAndOptionalGrid` are defined as shared helpers:
+
+private func buildScatterPlot(from configuration: GraphingConfiguration, includeGrid: Bool) -> (SCNNode, [SCNNode: [String: Any]]) {
+    // Shared parsing, validation, and node construction
+    // ...
+    addAxesAndOptionalGrid(to: node, axisKeys: axisKeys, xValues: xValues, yValues: yValues, zValues: zValues, includeGrid: includeGrid)
+    return (node, map)
+}
+
+private func addAxesAndOptionalGrid(...) {
+    AxisRenderer.addAxes(...) // Always included
+    if includeGrid {
+        GridPlanesRenderer.addGridPlanes(...)
+    }
+}
+This ensures SRP: grid logic is isolated and optional.
+
+Step 4: Register the Renderer
+
+Update `GraphRendererRegistry.swift`:
+
+struct GraphRendererRegistry {
+    static func renderer(for type: GraphType?) -> GraphRenderer? {
+        guard let type = type else { return nil }
+        switch type {
+        case .scatterPlot:
+            return ScatterPlotRenderer()
+        case .scatterPlotWithoutGrid:
+            return ScatterPlotNoGridRenderer()
+        default:
+            return nil
+        }
+    }
+}
+This enables dynamic selection based on `GraphingConfiguration`.
+
+Step 5: Test the Integration
+
+In `ConfigureGraphingView.swift`, ensure the user can select `scatterPlotWithoutGrid` as a graph type. Then run the app and verify:
+
+- Axes are rendered
+- Grid is omitted
+- Tap gestures and overlays still work
+
+---
+
+Summary
+
+This extension demonstrates:
+- SRP: Grid logic is isolated and optional
+- Open–Closed Principle: No changes to existing renderers
+- Modularity: New behavior added with minimal surface area
+
+You can use this pattern to add future variants like `scatterPlotMinimal`, `scatterPlotWithLegend`, or `scatterPlotAnimated`.
