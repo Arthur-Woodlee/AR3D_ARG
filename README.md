@@ -18,12 +18,12 @@
     <li>Clone the repository:
       <pre><code>git clone https://github.com/username/repo-name.git</code></pre>
       <p>Or, to clone directly into the current folder:</p>
-      <pre><code>git clone https://github.com/username/repo-name.git .</code></pre>
+      <pre><code>git clone https://github.com/Arthur-Woodlee/AR3D_ARG .</code></pre>
     </li>
     <li>Once cloned, locate the <code>AR3D_ARG/</code> directory — this contains the Swift files and assets you'll import into Xcode.</li>
   </ol>
 
-  <h3>🛠️ Manual Setup in Xcode</h3>
+  <h3>Manual Setup in Xcode</h3>
   <ol>
     <li>Open Xcode and create a new project:
       <ul>
