@@ -1,0 +1,73 @@
+//
+//  AddNewGraph.html
+//  AR3D_Augmented_Reality_Graphing
+//
+//  Created by Arthur Woodlee on 2/10/2025.
+//
+Adding a New Graph Type
+
+This guide walks you through adding a new graph type to the AR rendering pipeline. The system uses a modular architecture based on the GraphRenderer protocol and a central GraphRendererRegistry.
+
+1. Define the Graph Type
+
+Update the GraphType enum to include your new graph:
+
+    enum GraphType {
+        case scatterPlot
+        case surfacePlot   // Add your new type here
+        case histogramPlot
+        // etc.
+    }
+
+2. Create a Renderer
+
+Conform to the GraphRenderer protocol:
+
+    struct SurfacePlotRenderer: GraphRenderer {
+        func buildGraph(from configuration: GraphingConfiguration, in sceneView: ARSCNView)
+            -> (SCNNode, [SCNNode: [String: Any]]) {
+
+            // Load and validate data
+            // Extract axis keys and category
+            // Build your custom node
+            // Return (node, nodeMap)
+        }
+    }
+
+3. Register the Renderer
+
+Update GraphRendererRegistry.swift:
+
+    struct GraphRendererRegistry {
+        static func renderer(for type: GraphType?) -> GraphRenderer? {
+            guard let type = type else { return nil }
+            switch type {
+                case .scatterPlot: return ScatterPlotRenderer()
+                case .surfacePlot: return SurfacePlotRenderer()  // Register here
+                default: return nil
+            }
+        }
+    }
+
+4. Inject Theme via Configuration
+
+Update GraphingConfiguration.swift to support theme injection:
+
+    struct GraphingConfiguration {
+        let dataSet: DataSet
+        let selectedFeatures: [String]
+        let selectedGraph: GraphType?
+        let theme: ColorTheme = .defaultTheme  // Add this
+    }
+
+Then use it inside your renderer:
+
+    let theme = configuration.theme
+
+5. ARViewController: No Changes Needed
+
+ARViewController delegates rendering via GraphRendererRegistry. No changes are needed here unless you want to customize anchor behavior or gesture logic.
+
+Done!
+
+Your new graph type is now fully integrated. It will be automatically rendered when selected in GraphingConfiguration.

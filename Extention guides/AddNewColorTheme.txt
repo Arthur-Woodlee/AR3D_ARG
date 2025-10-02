@@ -1,0 +1,59 @@
+//
+//  Add AddNewColorTheme.html
+//  AR3D_Augmented_Reality_Graphing
+//
+//  Created by Arthur Woodlee on 2/10/2025.
+//
+Add a New Color Theme
+
+This guide explains how to extend the graphing system with a new ColorTheme while preserving Open–Closed Principle (OCP) compliance and accessibility support.
+
+1. Create a New Theme Struct
+
+Conform to the ColorTheme protocol:
+
+    struct HighContrastTheme: ColorTheme {
+        let id = UUID()
+        let name = "High Contrast"
+
+        func color(for category: String) -> UIColor {
+            switch category.lowercased() {
+                case "urgent": return .black
+                case "normal": return .white
+                default: return .gray
+            }
+        }
+
+        func shape(for category: String) -> SCNGeometry {
+            switch category.lowercased() {
+                case "urgent": return SCNBox(width: 0.02, height: 0.02, length: 0.02, chamferRadius: 0)
+                case "normal": return SCNSphere(radius: 0.02)
+                default: return SCNCylinder(radius: 0.015, height: 0.03)
+            }
+        }
+    }
+
+2. Register the Theme
+
+Add it to the ThemeRegistry:
+
+    struct ThemeRegistry {
+        static let all: [ThemeViewModel] = [
+            ThemeViewModel(theme: DefaultTheme()),
+            ThemeViewModel(theme: MaterialTheme()),
+            ThemeViewModel(theme: NeonTheme()),
+            ThemeViewModel(theme: HighContrastTheme())  // Add here
+        ]
+    }
+
+3. Done — No Other Code Needs Changing
+
+Thanks to protocol abstraction and view model wrapping, your theme is now available in the UI and rendering pipeline without modifying any existing logic.
+
+Note: If your theme uses custom shapes or colors, make sure they are distinguishable for color-blind users. Use shape(for:) to encode semantic meaning visually.
+
+Optional Enhancements
+
+- Add a previewSwatch or accessibilityLabel to your theme for richer UI feedback.
+- Support dynamic theme loading from JSON or remote config.
+- Group themes by category (e.g. "Accessibility", "Brand", "Experimental").

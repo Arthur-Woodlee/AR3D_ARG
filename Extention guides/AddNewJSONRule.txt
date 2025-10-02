@@ -1,0 +1,78 @@
+
+//
+//  Add ExtendDataInputSystem.html
+//  AR3D_Augmented_Reality_Graphing
+//
+//  Created by Arthur Woodlee on 2/10/2025.
+//
+Adding a New Validation Rule
+
+The validation system uses a modular, rule-based architecture. Each rule is self-contained and plugs into the shared BaseJSONValidator, which is instantiated in DataSetManager.swift.
+
+1. Define Your Rule
+
+Create a new struct that conforms to the ValidationRule protocol. Each rule must implement:
+- description: A short summary of the rule
+- matches(_ objects: [[String: Any]]): Logic to detect if the rule applies
+- parse(...): Logic to transform the raw objects into a typed dataset
+
+Example:
+
+    struct RuleXNumericFields: ValidationRule {
+        var description: String { "category + X numeric fields → Y keys" }
+
+        func matches(_ objects: [[String: Any]]) -> Bool {
+            objects.allSatisfy {
+                $0.filter { $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) != nil }.count == X
+                && $0.count == Y
+            }
+        }
+
+        func parse(_ objects: [[String: Any]], name: String, description: String) -> Result<ValidatedDataSet, JSONValidationError> {
+            let parsed: [DataPointStringDecimal_X] = objects.compactMap { obj in
+                guard let category = obj["category"] as? String else { return nil }
+                let decimals = obj.filter { $0.key != "category" }
+                                  .compactMap { DecimalUtils.coerceDecimal(from: $0.value) }
+                guard decimals.count == X else { return nil }
+                return DataPointStringDecimal_X(category: category, value1: ..., valueX: ...)
+            }
+
+            let dataSet = DataSetStringDecimal_X(name: name, description: description, data: parsed)
+            return .success(.dataSetStringDecimal_X(dataSet))
+        }
+    }
+
+2. Add Supporting Types
+
+Ensure the following types exist in your model layer:
+- DataPointStringDecimal_X: Struct with category and X Decimal fields
+- DataSetStringDecimal_X: Struct with id, name, description, and an array of DataPointStringDecimal_X
+- Add a new case to ValidatedDataSet enum: .dataSetStringDecimal_X(DataSetStringDecimal_X)
+
+3. Register the Rule in DataSetManager
+
+Open DataSetManager.swift and locate the validator property. This is where all rules are registered:
+
+    private let validator = BaseJSONValidator(rules: [
+        Rule2NumericFields(),
+        Rule3NumericFields(),
+        Rule4NumericFields(),
+        RuleXNumericFields()  // Add your new rule here
+    ])
+
+This validator is used in:
+- generateSyntheticDataset(...) — to validate generated data
+- storeJSON(...) — to validate downloaded or imported data
+
+4. (Optional) Extend Formatting Logic
+
+If your rule introduces a new structure, update GraphingDataUtils.formatExample(...) to reflect it:
+
+    switch validated {
+    case .dataSetStringDecimal_X:
+        return "(String, Number, ..., Number)"  // X numeric fields
+    }
+
+Done!
+
+Your rule is now active and will be automatically evaluated during validation. No changes to the base validator logic are required.

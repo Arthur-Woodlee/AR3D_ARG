@@ -1,0 +1,75 @@
+//
+//  Add ExtendDataInputSystem.html
+//  AR3D_Augmented_Reality_Graphing
+//
+//  Created by Arthur Woodlee on 2/10/2025.
+//
+
+Extending the Data Input System
+
+The data ingestion pipeline is designed to be modular and extensible. At its core is the DataInputHandler class, which handles user input and delegates dataset fetching and storage. The base class supports synthetic generation and JSON ingestion only. To support additional formats like CSV or RESTful APIs, we extend this class using inheritance.
+
+How to Extend the System
+
+To add fallback logic for other formats, use the ExtendedDataInputHandler class. This subclass overrides handleRemote(_:) to layer in additional fetch attempts after the base JSON logic fails.
+
+Extension Flow:
+
+    super.handleRemote(trimmed) { message in
+        if message != nil {
+            completion(message) // JSON succeeded
+        } else {
+            // JSON failed → try CSV
+            NetworkManager.shared.fetchCSV(from: trimmed) { csvResult in
+                ...
+            }
+        }
+    }
+
+This pattern ensures that:
+- The base class remains focused and testable.
+- New formats can be added incrementally without modifying core logic.
+- Each fallback is attempted only if the previous one fails.
+
+Adding New Formats
+
+To support a new format (e.g., XML, YAML, or a custom API):
+
+1. Extend NetworkManager with a new fetchX(from:) method.
+2. Extend DataSetManager with a corresponding storeX(_:) method.
+3. Override handleRemote(_:) in a new subclass (e.g., AdvancedDataInputHandler) and insert your new fallback after RESTful.
+
+Example:
+
+    NetworkManager.shared.fetchXML(from: trimmed) { xmlResult in
+        switch xmlResult {
+        case .success(let xmlData):
+            self.store(xmlData, using: self.dataSetManager.storeXML, format: "XML", completion: completion)
+        case .failure:
+            ...
+        }
+    }
+
+Recommended Storage Format
+
+It is strongly advised that implementers store all ingested datasets as JSON, regardless of their original format. JSON is the expected format later in the pipeline, particularly during validation, transformation, and visualization stages.
+
+If the source data is CSV, XML, or RESTful, convert it to a compatible JSON structure before storing. Use the ValidatedDataSet structure as a reference for shaping your converted JSON.
+
+Tips for Future Developers
+
+- Don’t modify DataInputHandler directly — extend it instead.
+- Use super.handleRemote to preserve JSON logic and build on top.
+- Keep each format’s fetch/store logic isolated for clarity and testability.
+- Use the store(_:using:format:) helper to avoid repeating success/failure handling.
+
+Testing Strategy
+
+You can inject different handler subclasses into your views or test harnesses:
+
+    let handler = ExtendedDataInputHandler(dataSetManager: manager)
+    handler.handle(input) { message in
+        print(message ?? "No confirmation")
+    }
+
+This makes it easy to preview, mock, or swap ingestion strategies without touching the UI.
