@@ -125,26 +125,21 @@ class DataSetManager: ObservableObject {
             "data": records
         ]
 
-        switch validator.validate(jsonRoot) {
-        case .failure(let validationError):
-            return .failure(validationError)
-        case .success:
-            do {
-                let fullData = try JSONSerialization.data(withJSONObject: jsonRoot, options: [.prettyPrinted])
-                try fullData.write(to: finalURL)
+        do {
+            let fullData = try JSONSerialization.data(withJSONObject: jsonRoot, options: [.prettyPrinted])
+            try fullData.write(to: finalURL)
 
-                let dataSet = DataSet(
-                    id: UUID(),
-                    name: datasetName,
-                    description: description,
-                    fileURL: finalURL,
-                    isFullyLoaded: false
-                )
+            let dataSet = DataSet(
+                id: UUID(),
+                name: datasetName,
+                description: description,
+                fileURL: finalURL,
+                isFullyLoaded: false
+            )
 
-                return .success(dataSet)
-            } catch {
-                return .failure(error)
-            }
+            return .success(dataSet)
+        } catch {
+            return .failure(error)
         }
     }
 
@@ -364,10 +359,26 @@ struct DataSetStringDecimal_4 {
     let data: [DataPointStringDecimal_4]
 }
 
+struct DataPointStringDecimal_4Plus1 {
+    let category: String
+    let value1: Decimal
+    let value2: Decimal
+    let value3: Decimal
+    let value4: Decimal
+    let extra: String
+}
+
+struct DataSetStringDecimal_4Plus1 {
+    let name: String
+    let description: String
+    let data: [DataPointStringDecimal_4Plus1]
+}
+
 enum ValidatedDataSet {
     case dataSetStringDecimal_2(DataSetStringDecimal_2)
     case dataSetStringDecimal_3(DataSetStringDecimal_3)
     case dataSetStringDecimal_4(DataSetStringDecimal_4)
+    case dataSetStringDecimal_4Plus1(DataSetStringDecimal_4Plus1)
 }
 
 enum JSONValidationError: Error {
@@ -515,5 +526,55 @@ struct Rule4NumericFields: ValidationRule {
 
         let dataSet = DataSetStringDecimal_4(name: name, description: description, data: parsed)
         return .success(.dataSetStringDecimal_4(dataSet))
+    }
+}
+
+struct Rule4NumericFieldsPlus1String: ValidationRule {
+    var description: String { "category + 4 numeric fields + 1 extra string → 6 keys" }
+
+    func matches(_ objects: [[String: Any]]) -> Bool {
+        objects.allSatisfy { obj in
+            guard let category = obj["category"] as? String else { return false }
+
+            let numericCount = obj.filter {
+                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) != nil
+            }.count
+
+            let stringExtras = obj.filter {
+                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) == nil && $0.value is String
+            }
+
+            return numericCount == 4 && stringExtras.count == 1 && obj.count == 6
+        }
+    }
+
+    func parse(_ objects: [[String: Any]], name: String, description: String) -> Result<ValidatedDataSet, JSONValidationError> {
+        let parsed: [DataPointStringDecimal_4Plus1] = objects.compactMap { obj in
+            guard let category = obj["category"] as? String else { return nil }
+
+            let numericValues = obj.filter {
+                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) != nil
+            }.compactMap { DecimalUtils.coerceDecimal(from: $0.value) }
+
+            guard numericValues.count == 4 else { return nil }
+
+            let extraString = obj.filter {
+                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) == nil && $0.value is String
+            }.first?.value as? String
+
+            guard let extra = extraString else { return nil }
+
+            return DataPointStringDecimal_4Plus1(
+                category: category,
+                value1: numericValues[0],
+                value2: numericValues[1],
+                value3: numericValues[2],
+                value4: numericValues[3],
+                extra: extra
+            )
+        }
+
+        let dataSet = DataSetStringDecimal_4Plus1(name: name, description: description, data: parsed)
+        return .success(.dataSetStringDecimal_4Plus1(dataSet))
     }
 }

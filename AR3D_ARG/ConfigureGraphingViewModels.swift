@@ -49,31 +49,18 @@ extension GraphingConfiguration: Hashable {
 }
 
 struct GraphingDataUtils {
-    private static let validator = BaseJSONValidator(rules: [
-        Rule2NumericFields(),
-        Rule3NumericFields(),
-        Rule4NumericFields()
-    ])
-
     static func formatExample(from dataSet: DataSet) -> String? {
         guard let data = try? Data(contentsOf: dataSet.fileURL),
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let points = json["data"] as? [[String: Any]],
+              let first = points.first else {
             return nil
         }
 
-        switch validator.validate(json) {
-        case .success(let validated):
-            switch validated {
-            case .dataSetStringDecimal_2:
-                return "(String, Number, Number)"
-            case .dataSetStringDecimal_3:
-                return "(String, Number, Number, Number)"
-            case .dataSetStringDecimal_4:
-                return "(String, Number, Number, Number, Number)"
-            }
-        case .failure:
-            return nil
-        }
+        let numericKeys = first.filter { DecimalUtils.coerceDecimal(from: $0.value) != nil }.map { $0.key }
+        let stringKeys = first.filter { $0.value is String }.map { $0.key }
+
+        return "(\(stringKeys.joined(separator: ", ")), \(numericKeys.joined(separator: ", ")))"
     }
 
     static func extractNumericFeatureKeys(from dataSet: DataSet) -> [String]? {

@@ -717,12 +717,6 @@ struct NodeStyler {
 }
 
 struct DataParser {
-    static let validator = BaseJSONValidator(rules: [
-        Rule2NumericFields(),
-        Rule3NumericFields(),
-        Rule4NumericFields()
-    ])
-
     static func loadValidatedPoints(from url: URL) -> Result<[[String: Any]], Error> {
         do {
             let data = try Data(contentsOf: url)
@@ -733,21 +727,13 @@ struct DataParser {
                 ]))
             }
 
-            switch validator.validate(json) {
-            case .success:
-                return .success(rawPoints)
-            case .failure(let error):
-                return .failure(NSError(domain: "DataParser", code: 2, userInfo: [
-                    NSLocalizedDescriptionKey: "Validation failed: \(error.description)"
-                ]))
-            }
+            return .success(rawPoints)
 
         } catch {
             return .failure(error)
         }
     }
 }
-
 
 extension SCNGeometry {
     static func polyline(from points: [SCNVector3]) -> SCNGeometry {
