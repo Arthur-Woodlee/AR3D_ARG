@@ -56,10 +56,10 @@
   <h2>Onboarding Guides</h2>
   <p>After setup, explore the following guides to extend the system:</p>
   <ul>
-    <li><a href="Extension guides/ExtendDataInputSystem.html">Extending the Data Input System</a></li>
-    <li><a href="Extension guides/AddValidationRule.html">Adding a New Validation Rule</a></li>
-    <li><a href="Extension guides/AddGraphType.html">Adding a New Graph Type</a></li>
-    <li><a href="Extension guides/AddColorTheme.html">Adding a New Color Theme</a></li>
+    <li><a href="https://github.com/Arthur-Woodlee/AR3D_ARG/blob/main/Extention%20guides/ExtendDataInputSystem.txt">Extending the Data Input System</a></li>
+    <li><a href="https://github.com/Arthur-Woodlee/AR3D_ARG/blob/main/Extention%20guides/AddNewJSONRule.txt">Adding a New Validation Rule</a></li>
+    <li><a href="https://github.com/Arthur-Woodlee/AR3D_ARG/blob/main/Extention%20guides/AddNewGraph.txt">Adding a New Graph Type</a></li>
+    <li><a href="https://github.com/Arthur-Woodlee/AR3D_ARG/blob/main/Extention%20guides/AddNewColorTheme.txt">Adding a New Color Theme</a></li>
   </ul>
 
   <h2>Architectural Highlights</h2>
