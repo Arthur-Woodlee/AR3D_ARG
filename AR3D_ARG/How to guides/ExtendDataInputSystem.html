@@ -1,0 +1,100 @@
+//
+//  Add ExtendDataInputSystem.html
+//  AR3D_Augmented_Reality_Graphing
+//
+//  Created by Arthur Woodlee on 2/10/2025.
+//
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extending the Data Input System</title>
+</head>
+<body>
+
+    <h2>🧭 Extending the Data Input System</h2>
+
+    <p>
+        The data ingestion pipeline is designed to be modular and extensible. At its core is the <code>DataInputHandler</code> class, which handles user input and delegates dataset fetching and storage. The base class supports synthetic generation and JSON ingestion only. To support additional formats like CSV or RESTful APIs, we extend this class using inheritance.
+    </p>
+
+    <h3>🔧 How to Extend the System</h3>
+
+    <p>
+        To add fallback logic for other formats, use the <code>ExtendedDataInputHandler</code> class. This subclass overrides <code>handleRemote(_:)</code> to layer in additional fetch attempts after the base JSON logic fails.
+    </p>
+
+    <h4>Extension Flow</h4>
+
+    <pre><code>super.handleRemote(trimmed) { message in
+    if message != nil {
+        completion(message) // JSON succeeded
+    } else {
+        // JSON failed → try CSV
+        NetworkManager.shared.fetchCSV(from: trimmed) { csvResult in
+            ...
+        }
+    }
+}
+    </code></pre>
+
+    <p>This pattern ensures that:</p>
+    <ul>
+        <li>The base class remains focused and testable.</li>
+        <li>New formats can be added incrementally without modifying core logic.</li>
+        <li>Each fallback is attempted only if the previous one fails.</li>
+    </ul>
+
+    <h3>Adding New Formats</h3>
+
+    <p>To support a new format (e.g., XML, YAML, or a custom API):</p>
+
+    <ol>
+        <li><strong>Extend <code>NetworkManager</code></strong> with a new <code>fetchX(from:)</code> method.</li>
+        <li><strong>Extend <code>DataSetManager</code></strong> with a corresponding <code>storeX(_:)</code> method.</li>
+        <li><strong>Override <code>handleRemote(_:)</code></strong> in a new subclass (e.g., <code>AdvancedDataInputHandler</code>) and insert your new fallback after RESTful.</li>
+    </ol>
+
+    <pre><code>NetworkManager.shared.fetchXML(from: trimmed) { xmlResult in
+    switch xmlResult {
+    case .success(let xmlData):
+        self.store(xmlData, using: self.dataSetManager.storeXML, format: "XML", completion: completion)
+    case .failure:
+        ...
+    }
+}
+    </code></pre>
+
+    <h3>Recommended Storage Format</h3>
+
+    <p>
+        It is strongly advised that implementers store all ingested datasets as <strong>JSON</strong>, regardless of their original format. JSON is the expected format later in the pipeline, particularly during validation, transformation, and visualization stages. If the source data is CSV, XML, or RESTful, convert it to a compatible JSON structure before storing.
+    </p>
+
+    <p>
+        This ensures consistency across the system and simplifies downstream processing. You can use the <code>ValidatedDataSet</code> structure as a reference for shaping your converted JSON.
+    </p>
+
+    <h3>Tips for Future Developers</h3>
+
+    <ul>
+        <li><strong>Don’t modify <code>DataInputHandler</code> directly</strong>—extend it instead.</li>
+        <li><strong>Use <code>super.handleRemote</code></strong> to preserve JSON logic and build on top.</li>
+        <li><strong>Keep each format’s fetch/store logic isolated</strong> for clarity and testability.</li>
+        <li><strong>Use the <code>store(_:using:format:)</code> helper</strong> to avoid repeating success/failure handling.</li>
+    </ul>
+
+    <h3>Testing Strategy</h3>
+
+    <p>You can inject different handler subclasses into your views or test harnesses:</p>
+
+    <pre><code>let handler = ExtendedDataInputHandler(dataSetManager: manager)
+handler.handle(input) { message in
+    print(message ?? "No confirmation")
+}
+    </code></pre>
+
+    <p>This makes it easy to preview, mock, or swap ingestion strategies without touching the UI.</p>
+
+</body>
+</html>
