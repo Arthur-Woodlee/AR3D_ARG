@@ -72,11 +72,4 @@
     <li>Rule-based validation via <code>BaseJSONValidator</code></li>
     <li>Registry-driven extensibility for graphs and themes</li>
   </ul>
-
-  <h2>Testing & Previewing</h2>
-  <p>Inject custom handlers and renderers to preview ingestion and visualization strategies without modifying the UI. See <code>ARViewController.swift</code> and <code>DataSetManager.swift</code> for entry points.</p>
-
-  <h2>Contributing</h2>
-  <p>To contribute a new graph type, theme, or validation rule, follow the onboarding guides and submit a pull request with clear commit messages and documentation.</p>
-
 </body>
