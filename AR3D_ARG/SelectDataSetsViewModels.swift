@@ -43,7 +43,8 @@ class DataSetManager: ObservableObject {
     private let validator = BaseJSONValidator(rules: [
         Rule2NumericFields(),
         Rule3NumericFields(),
-        Rule4NumericFields()
+        Rule4NumericFields(),
+        Rule4NumericFieldsPlus1String()
     ])
 
     func addDataset(_ newDataSet: DataSet) {
