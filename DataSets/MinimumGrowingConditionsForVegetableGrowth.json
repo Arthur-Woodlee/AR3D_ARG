@@ -1,0 +1,54 @@
+
+{
+    "name": "Ideal conditions for vegetable growth",
+    "description": "This dataset contains optimal growing conditions for 50 vegetables, categorized by growth type. Useful for clustering, classification, and AR visualization.",
+    "data": [
+        { "category": "Fruiting Vegetables", "type": "Tomato", "growingTemperatureMin": 21, "sunHoursMin": 10, "soilPhMin": 6.2, "waterPerWeekMin": 1.5 },
+        { "category": "Fruiting Vegetables", "type": "Capsicum", "growingTemperatureMin": 20, "sunHoursMin": 9, "soilPhMin": 6.5, "waterPerWeekMin": 2.5 },
+        { "category": "Fruiting Vegetables", "type": "Eggplant", "growingTemperatureMin": 22, "sunHoursMin": 10, "soilPhMin": 6.0, "waterPerWeekMin": 2.0 },
+        { "category": "Fruiting Vegetables", "type": "Zucchini", "growingTemperatureMin": 19, "sunHoursMin": 8, "soilPhMin": 6.2, "waterPerWeekMin": 2.2 },
+        { "category": "Fruiting Vegetables", "type": "Cucumber", "growingTemperatureMin": 20, "sunHoursMin": 10, "soilPhMin": 6.5, "waterPerWeekMin": 3.0 },
+        
+        { "category": "Root Vegetables", "type": "Carrot", "growingTemperatureMin": 16, "sunHoursMin": 6, "soilPhMin": 6.5, "waterPerWeekMin": 1.2 },
+        { "category": "Root Vegetables", "type": "Beetroot", "growingTemperatureMin": 17, "sunHoursMin": 6, "soilPhMin": 6.0, "waterPerWeekMin": 1.5 },
+        { "category": "Root Vegetables", "type": "Radish", "growingTemperatureMin": 15, "sunHoursMin": 5, "soilPhMin": 6.0, "waterPerWeekMin": 1.0 },
+        { "category": "Root Vegetables", "type": "Turnip", "growingTemperatureMin": 14, "sunHoursMin": 5, "soilPhMin": 6.0, "waterPerWeekMin": 1.5 },
+        { "category": "Root Vegetables", "type": "Parsnip", "growingTemperatureMin": 20, "sunHoursMin": 10, "soilPhMin": 5.8, "waterPerWeekMin": 2.5 },
+        
+        { "category": "Leafy Greens", "type": "Spinach", "growingTemperatureMin": 14, "sunHoursMin": 5, "soilPhMin": 6.0, "waterPerWeekMin": 2.0 },
+        { "category": "Leafy Greens", "type": "Lettuce", "growingTemperatureMin": 13, "sunHoursMin": 4, "soilPhMin": 6.8, "waterPerWeekMin": 1.8 },
+        { "category": "Leafy Greens", "type": "Kale", "growingTemperatureMin": 12, "sunHoursMin": 4, "soilPhMin": 6.2, "waterPerWeekMin": 1.8 },
+        { "category": "Leafy Greens", "type": "Silverbeet", "growingTemperatureMin": 14, "sunHoursMin": 5, "soilPhMin": 6.5, "waterPerWeekMin": 2.0 },
+        { "category": "Leafy Greens", "type": "Rocket", "growingTemperatureMin": 15, "sunHoursMin": 6, "soilPhMin": 6.2, "waterPerWeekMin": 2.0 },
+        
+        { "category": "Brassicas", "type": "Broccoli", "growingTemperatureMin": 18, "sunHoursMin": 6, "soilPhMin": 6.5, "waterPerWeekMin": 2.0 },
+        { "category": "Brassicas", "type": "Cauliflower", "growingTemperatureMin": 16, "sunHoursMin": 6, "soilPhMin": 6.5, "waterPerWeekMin": 2.0 },
+        { "category": "Brassicas", "type": "Cabbage", "growingTemperatureMin": 15, "sunHoursMin": 6, "soilPhMin": 6.5, "waterPerWeekMin": 1.5 },
+        { "category": "Brassicas", "type": "Brussels Sprouts", "growingTemperatureMin": 17, "sunHoursMin": 7, "soilPhMin": 6.4, "waterPerWeekMin": 1.8 },
+        { "category": "Brassicas", "type": "Kohlrabi", "growingTemperatureMin": 19, "sunHoursMin": 7, "soilPhMin": 6.3, "waterPerWeekMin": 2.2 },
+        
+        { "category": "Bulbs & Alliums", "type": "Garlic", "growingTemperatureMin": 14, "sunHoursMin": 6, "soilPhMin": 6.2, "waterPerWeekMin": 1.2 },
+        { "category": "Bulbs & Alliums", "type": "Onion", "growingTemperatureMin": 12, "sunHoursMin": 5, "soilPhMin": 6.5, "waterPerWeekMin": 1.0 },
+        { "category": "Bulbs & Alliums", "type": "Shallot", "growingTemperatureMin": 15, "sunHoursMin": 6, "soilPhMin": 6.2, "waterPerWeekMin": 1.8 },
+        { "category": "Bulbs & Alliums", "type": "Leek", "growingTemperatureMin": 13, "sunHoursMin": 5, "soilPhMin": 6.3, "waterPerWeekMin": 1.4 },
+        { "category": "Bulbs & Alliums", "type": "Spring Onion", "growingTemperatureMin": 16, "sunHoursMin": 6, "soilPhMin": 6.1, "waterPerWeekMin": 1.6 },
+        
+        { "category": "Stalks & Shoots", "type": "Celery", "growingTemperatureMin": 16, "sunHoursMin": 6, "soilPhMin": 6.5, "waterPerWeekMin": 2.5 },
+        { "category": "Stalks & Shoots", "type": "Asparagus", "growingTemperatureMin": 18, "sunHoursMin": 8, "soilPhMin": 6.5, "waterPerWeekMin": 2.5 },
+        { "category": "Stalks & Shoots", "type": "Rhubarb", "growingTemperatureMin": 17, "sunHoursMin": 7, "soilPhMin": 6.3, "waterPerWeekMin": 2.2 },
+        { "category": "Stalks & Shoots", "type": "Fennel", "growingTemperatureMin": 15, "sunHoursMin": 6, "soilPhMin": 6.4, "waterPerWeekMin": 2.0 },
+        { "category": "Stalks & Shoots", "type": "Bamboo Shoots", "growingTemperatureMin": 19, "sunHoursMin": 7, "soilPhMin": 6.2, "waterPerWeekMin": 2.3 },
+        
+        { "category": "Legumes", "type": "Peas", "growingTemperatureMin": 13, "sunHoursMin": 5, "soilPhMin": 6.5, "waterPerWeekMin": 1.5 },
+        { "category": "Legumes", "type": "Beans", "growingTemperatureMin": 20, "sunHoursMin": 8, "soilPhMin": 6.5, "waterPerWeekMin": 2.0 },
+        { "category": "Legumes", "type": "Lentils", "growingTemperatureMin": 18, "sunHoursMin": 7, "soilPhMin": 6.4, "waterPerWeekMin": 1.8 },
+        { "category": "Legumes", "type": "Chickpeas", "growingTemperatureMin": 15, "sunHoursMin": 6, "soilPhMin": 6.3, "waterPerWeekMin": 1.6 },
+        { "category": "Legumes", "type": "Soybeans", "growingTemperatureMin": 17, "sunHoursMin": 7, "soilPhMin": 6.2, "waterPerWeekMin": 1.9 },
+        
+        { "category": "Tubers", "type": "Potato", "growingTemperatureMin": 22, "sunHoursMin": 8, "soilPhMin": 5.8, "waterPerWeekMin": 3.5 },
+        { "category": "Tubers", "type": "Sweet Potato", "growingTemperatureMin": 24, "sunHoursMin": 10, "soilPhMin": 6.0, "waterPerWeekMin": 3.0 },
+        { "category": "Tubers", "type": "Yam", "growingTemperatureMin": 23, "sunHoursMin": 9, "soilPhMin": 6.1, "waterPerWeekMin": 2.8 },
+        { "category": "Tubers", "type": "Cassava", "growingTemperatureMin": 21, "sunHoursMin": 8, "soilPhMin": 6.2, "waterPerWeekMin": 3.2 },
+        { "category": "Tubers", "type": "Jerusalem Artichoke", "growingTemperatureMin": 25, "sunHoursMin": 10, "soilPhMin": 6.4, "waterPerWeekMin": 3.2 }
+    ]
+}
