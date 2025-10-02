@@ -1,8 +1,7 @@
-
 <body>
 
   <h1>AR3D_ARG – Augmented Reality Graphing</h1>
-  <p>A modular, extensible AR graphing app built in Swift and RealityKit. Designed for accessibility, onboarding clarity, and Open–Closed Principle compliance.</p>
+  <p>A modular, extensible AR graphing app built in Swift and RealityKit. Designed for accessibility, onboarding clarity, and Open/Closed Principle compliance.</p>
 
   <h2>Getting Started</h2>
   <p>This project does not include a preconfigured <code>.xcodeproj</code> file to avoid committing user-specific metadata. Instead, contributors should follow this manual setup process to load the app into Xcode.</p>
@@ -16,11 +15,9 @@
       <pre><code>cd ~/Desktop/AR3D_ARG_Project</code></pre>
     </li>
     <li>Clone the repository:
-      <pre><code>git clone https://github.com/username/repo-name.git</code></pre>
-      <p>Or, to clone directly into the current folder:</p>
       <pre><code>git clone https://github.com/Arthur-Woodlee/AR3D_ARG .</code></pre>
     </li>
-    <li>Once cloned, locate the <code>AR3D_ARG/</code> directory — this contains the Swift files and assets you'll import into Xcode.</li>
+    <li>Once cloned, locate the <code>AR3D_ARG/</code> directory. This contains the Swift files and assets you'll import into Xcode.</li>
   </ol>
 
   <h3>Manual Setup in Xcode</h3>
@@ -39,7 +36,7 @@
         <li><code>Assets.xcassets</code></li>
       </ul>
     </li>
-    <li>Right-click the app folder in Xcode and choose <strong>Add Files to [Your App]</strong></li>
+    <li>Right click the app folder in Xcode and choose <strong>Add Files to [Your App]</strong></li>
     <li>Navigate to the <code>AR3D_ARG/</code> directory in the cloned repo and select all Swift files and assets</li>
     <li>Ensure <strong>“Copy items if needed”</strong> is checked</li>
     <li>Verify that each file is added to your target:
@@ -67,9 +64,13 @@
 
   <h2>Architectural Highlights</h2>
   <ul>
-    <li>Protocol-based rendering via <code>GraphRenderer</code></li>
+    <li>Protocol based rendering via <code>GraphRenderer</code></li>
     <li>Theme injection via <code>GraphingConfiguration</code></li>
     <li>Rule-based validation via <code>BaseJSONValidator</code></li>
-    <li>Registry-driven extensibility for graphs and themes</li>
+    <li>Registry driven extensibility for graphs and themes</li>
+    <li>Single Responsibility Principle (SRP) enforced across renderers, parsers, and scene utilities</li>
+    <li>Modular scene hosting via <code>ARViewContainer</code>, <code>ARViewController</code>, and <code>SceneBuilder</code></li>
+    <li>Navigation driven screen flow via <code>Screen</code> enum and <code>AR3D_ARG_NavigationRoutes.swift</code></li>
   </ul>
+
 </body>

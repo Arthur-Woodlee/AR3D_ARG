@@ -10,6 +10,7 @@ import Foundation
 
 enum GraphType: String, CaseIterable, Identifiable {
     case scatterPlot = "Scatter Plot"
+    case scatterPlotNoGrid = "Scatter Plot (No Grid)"
     /*case surfacePlot = "Surface Plot"
     case histogramPlot = "Histogram Plot"
     case parallelCoordinatesPlot = "Parallel Coordinates Plot"
