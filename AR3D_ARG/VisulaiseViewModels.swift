@@ -307,11 +307,11 @@ struct DecimalUtils {
     }
     
     static func coerceDecimal(from value: Any) -> Decimal? {
-        if let d = value as? Decimal { return d }
-        if let n = value as? NSNumber { return Decimal(n.doubleValue) }
-        if let s = value as? String {
-            return Decimal(string: s) ?? (Double(s).map { Decimal($0) })
-        }
+        if let decimal = value as? Decimal { return decimal }
+        if let double = value as? Double { return Decimal(double) }
+        if let int = value as? Int { return Decimal(int) }
+        if let number = value as? NSNumber { return Decimal(string: number.stringValue) }
+        if let string = value as? String { return Decimal(string: string) }
         return nil
     }
 }

@@ -8,7 +8,7 @@ import SwiftUI
 
 struct FetchDataSetView: View {
     @StateObject private var dataSetManager = DataSetManager()
-    @State private var inputText: String = "https://raw.githubusercontent.com/a-a-w-136/ARGA/refs/heads/main/Minimum_conditions_for_vegetable_growth.json"
+    @State private var inputText: String = "https://raw.githubusercontent.com/Arthur-Woodlee/AR3D_ARG/refs/heads/main/DataSets/MinimumGrowingConditionsForVegetableGrowth.json"
     @State private var confirmationMessage: String? = nil
 
     var onSelect: ([DataSet]) -> Void

@@ -31,7 +31,7 @@ struct ConfigureGraphingView: View {
         .onAppear {
             if numericFeatures.isEmpty || categoricalFeatures.isEmpty {
                 numericFeatures = GraphingDataUtils.extractNumericFeatureKeys(from: dataSet) ?? []
-                categoricalFeatures = GraphingDataUtils.extractCategoricalKeys(from: dataSet) ?? []
+                categoricalFeatures = ["category"] // override here
             }
         }
     }

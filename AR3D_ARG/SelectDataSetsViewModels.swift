@@ -535,35 +535,57 @@ struct Rule4NumericFieldsPlus1String: ValidationRule {
 
     func matches(_ objects: [[String: Any]]) -> Bool {
         objects.allSatisfy { obj in
-            guard let category = obj["category"] as? String else { return false }
+            guard let category = obj["category"] as? String else {
+                print("❌ Missing 'category' string in object: \(obj)")
+                return false
+            }
 
             let numericCount = obj.filter {
-                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) != nil
+                $0.key != "category" && $0.value is NSNumber
             }.count
 
             let stringExtras = obj.filter {
-                $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) == nil && $0.value is String
+                $0.key != "category" && $0.value is String
             }
 
-            return numericCount == 4 && stringExtras.count == 1 && obj.count == 6
+            let keyCount = obj.count
+            let passes = numericCount == 4 && stringExtras.count == 1 && keyCount == 6
+
+            if !passes {
+                print("❌ Validation failed for object: \(obj)")
+                print("🔢 Numeric count: \(numericCount)")
+                print("🔤 Extra string count: \(stringExtras.count)")
+                print("🔑 Total keys: \(keyCount)")
+            }
+
+            return passes
         }
     }
 
     func parse(_ objects: [[String: Any]], name: String, description: String) -> Result<ValidatedDataSet, JSONValidationError> {
         let parsed: [DataPointStringDecimal_4Plus1] = objects.compactMap { obj in
-            guard let category = obj["category"] as? String else { return nil }
+            guard let category = obj["category"] as? String else {
+                print("❌ Parse failed: missing 'category' in object: \(obj)")
+                return nil
+            }
 
             let numericValues = obj.filter {
                 $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) != nil
             }.compactMap { DecimalUtils.coerceDecimal(from: $0.value) }
 
-            guard numericValues.count == 4 else { return nil }
+            if numericValues.count != 4 {
+                print("❌ Parse failed: expected 4 numeric values, got \(numericValues.count) in object: \(obj)")
+                return nil
+            }
 
             let extraString = obj.filter {
                 $0.key != "category" && DecimalUtils.coerceDecimal(from: $0.value) == nil && $0.value is String
             }.first?.value as? String
 
-            guard let extra = extraString else { return nil }
+            guard let extra = extraString else {
+                print("❌ Parse failed: missing extra string field in object: \(obj)")
+                return nil
+            }
 
             return DataPointStringDecimal_4Plus1(
                 category: category,
