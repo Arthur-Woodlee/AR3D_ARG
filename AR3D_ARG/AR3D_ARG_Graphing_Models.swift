@@ -18,16 +18,6 @@ enum GraphType: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-/*
-struct GraphingConfiguration: Identifiable, Hashable {
-    let id = UUID()
-    let dataSet: DataSet
-    let selectedGraph: GraphType?
-    var selectedFeatures: [String] = ["A", "B", "C", "D"] // default
-}
-*/
-
-
 struct GraphingConfiguration: Identifiable {
     let id = UUID()
     let dataSet: DataSet
