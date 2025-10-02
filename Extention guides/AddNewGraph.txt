@@ -1,9 +1,5 @@
-//
-//  AddNewGraph.html
-//  AR3D_Augmented_Reality_Graphing
-//
-//  Created by Arthur Woodlee on 2/10/2025.
-//
+Created by Arthur Woodlee on 2/10/2025.
+
 Adding a New Graph Type
 
 This guide walks you through adding a new graph type to the AR rendering pipeline. The system uses a modular architecture based on the GraphRenderer protocol and a central GraphRendererRegistry.

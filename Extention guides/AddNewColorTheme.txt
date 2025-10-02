@@ -1,9 +1,5 @@
-//
-//  Add AddNewColorTheme.html
-//  AR3D_Augmented_Reality_Graphing
-//
-//  Created by Arthur Woodlee on 2/10/2025.
-//
+Created by Arthur Woodlee on 2/10/2025.
+
 Add a New Color Theme
 
 This guide explains how to extend the graphing system with a new ColorTheme while preserving Open–Closed Principle (OCP) compliance and accessibility support.

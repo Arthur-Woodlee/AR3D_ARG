@@ -1,10 +1,5 @@
+Created by Arthur Woodlee on 2/10/2025.
 
-//
-//  Add ExtendDataInputSystem.html
-//  AR3D_Augmented_Reality_Graphing
-//
-//  Created by Arthur Woodlee on 2/10/2025.
-//
 Adding a New Validation Rule
 
 The validation system uses a modular, rule-based architecture. Each rule is self-contained and plugs into the shared BaseJSONValidator, which is instantiated in DataSetManager.swift.

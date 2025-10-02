@@ -1,9 +1,4 @@
-//
-//  Add ExtendDataInputSystem.html
-//  AR3D_Augmented_Reality_Graphing
-//
-//  Created by Arthur Woodlee on 2/10/2025.
-//
+Created by Arthur Woodlee on 2/10/2025.
 
 Extending the Data Input System
 
