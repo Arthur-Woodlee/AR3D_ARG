@@ -7,6 +7,6 @@
 enum Screen: Hashable {
     case select
     case fetch
-    case configure(dataSet: DataSet)
-    case virtualise(configuration: GraphingConfiguration)
+    case configure(dataSets: [DataSet], index: Int, accumulated: [GraphingConfiguration])
+    case virtualise(configurations: [GraphingConfiguration])
 }

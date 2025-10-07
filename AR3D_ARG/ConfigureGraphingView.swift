@@ -8,7 +8,11 @@ import SwiftUI
 
 struct ConfigureGraphingView: View {
     let dataSet: DataSet
-    let navigateToVirtualise: (GraphingConfiguration) -> Void
+    let currentIndex: Int
+    let totalCount: Int
+    let accumulated: [GraphingConfiguration]
+    let navigateToNext: (_ nextIndex: Int, _ updated: [GraphingConfiguration]) -> Void
+    let navigateToVirtualise: ([GraphingConfiguration]) -> Void
 
     @State private var selectedGraph: GraphType?
     @State private var selectedFeatures: [String] = []
@@ -24,21 +28,21 @@ struct ConfigureGraphingView: View {
                 ChartTypePickerView(selectedGraph: $selectedGraph)
                 ThemePickerView(selectedThemeID: $selectedThemeID)
                     .padding(.bottom, 16)
-                visualiseButton
+                navigationButton
             }
             .padding()
         }
         .onAppear {
             if numericFeatures.isEmpty || categoricalFeatures.isEmpty {
                 numericFeatures = GraphingDataUtils.extractNumericFeatureKeys(from: dataSet) ?? []
-                categoricalFeatures = ["category"] // override here
+                categoricalFeatures = ["category"]
             }
         }
     }
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Configure Graphing")
+            Text("Configure Graphing (\(currentIndex + 1) of \(totalCount))")
                 .font(.largeTitle)
                 .bold()
             Text(dataSet.name)
@@ -76,18 +80,27 @@ struct ConfigureGraphingView: View {
         }
     }
 
-    private var visualiseButton: some View {
-        Button("Visualise Selected Graph") {
+    private var navigationButton: some View {
+        Button(currentIndex < totalCount - 1 ? "Next Dataset" : "Visualise All") {
             let axisCount = selectedFeatures.filter { !categoricalFeatures.contains($0) }.count
-            if let graph = selectedGraph, axisCount == 3,
-               let selectedTheme = ThemeRegistry.all.first(where: { $0.id == selectedThemeID })?.theme {
-                let config = GraphingConfiguration(
-                    dataSet: dataSet,
-                    selectedGraph: graph,
-                    selectedFeatures: selectedFeatures,
-                    theme: selectedTheme
-                )
-                navigateToVirtualise(config)
+            guard let graph = selectedGraph, axisCount == 3,
+                  let selectedTheme = ThemeRegistry.all.first(where: { $0.id == selectedThemeID })?.theme else {
+                return
+            }
+
+            let config = GraphingConfiguration(
+                dataSet: dataSet,
+                selectedGraph: graph,
+                selectedFeatures: selectedFeatures,
+                themeID: selectedThemeID
+            )
+
+            let updatedConfigs = accumulated + [config]
+
+            if currentIndex < totalCount - 1 {
+                navigateToNext(currentIndex + 1, updatedConfigs)
+            } else {
+                navigateToVirtualise(updatedConfigs)
             }
         }
         .frame(maxWidth: .infinity)

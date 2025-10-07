@@ -23,28 +23,34 @@ struct RootView: View {
                 switch screen {
                 case .select:
                     SelectDataSetsView { selected in
-                        if let dataSet = selected.first {
-                            path.append(.configure(dataSet: dataSet))
+                        if !selected.isEmpty {
+                            path.append(.configure(dataSets: selected, index: 0, accumulated: []))
                         }
                     }
 
                 case .fetch:
                     FetchDataSetView { selected in
-                        if let dataSet = selected.first {
-                            path.append(.configure(dataSet: dataSet))
+                        if !selected.isEmpty {
+                            path.append(.configure(dataSets: selected, index: 0, accumulated: []))
                         }
                     }
 
-                case .configure(let dataSet):
+                case .configure(let dataSets, let index, let accumulated):
                     ConfigureGraphingView(
-                        dataSet: dataSet,
-                        navigateToVirtualise: { configuration in
-                            path.append(.virtualise(configuration: configuration))
+                        dataSet: dataSets[index],
+                        currentIndex: index,
+                        totalCount: dataSets.count,
+                        accumulated: accumulated,
+                        navigateToNext: { nextIndex, updated in
+                            path.append(.configure(dataSets: dataSets, index: nextIndex, accumulated: updated))
+                        },
+                        navigateToVirtualise: { finalConfigs in
+                            path.append(.virtualise(configurations: finalConfigs))
                         }
                     )
 
-                case .virtualise(let configuration):
-                    VirtualiseView(configuration: configuration)
+                case .virtualise(let configurations):
+                    VirtualiseView(configuration: configurations)
                 }
             }
         }

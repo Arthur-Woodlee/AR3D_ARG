@@ -100,7 +100,9 @@ private func buildScatterPlot(from configuration: GraphingConfiguration, include
     }
 
     let categoryKey = configuration.selectedFeatures.contains("category") ? "category" : nil
-    let theme = configuration.theme
+
+    // ✅ Resolve the theme from themeID
+    let theme = ThemeRegistry.all.first(where: { $0.id == configuration.themeID })?.theme ?? DefaultTheme()
 
     let (node, map) = SceneBuilder.buildScatterPlot(
         from: rawPoints,

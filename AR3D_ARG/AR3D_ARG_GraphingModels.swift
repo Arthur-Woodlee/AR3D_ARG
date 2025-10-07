@@ -22,9 +22,9 @@ enum GraphType: String, CaseIterable, Identifiable {
 struct GraphingConfiguration: Identifiable {
     let id = UUID()
     let dataSet: DataSet
-    let selectedGraph: GraphType?
-    var selectedFeatures: [String] = ["A", "B", "C", "D"]
-    var theme: any ColorTheme = DefaultTheme()
+    var selectedGraph: GraphType?
+    var selectedFeatures: [String] = []
+    var themeID: UUID = ThemeRegistry.all.first?.id ?? UUID()
 }
 
 extension GraphingConfiguration: Equatable {

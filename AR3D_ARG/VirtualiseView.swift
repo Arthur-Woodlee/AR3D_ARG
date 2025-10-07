@@ -9,11 +9,12 @@ import RealityKit
 import UIKit
 import ARKit
 
+
 struct VirtualiseView: View {
-    let configuration: GraphingConfiguration
+    let configuration: [GraphingConfiguration]
 
     var body: some View {
-        ARViewContainer(configuration: configuration)
+        ARViewContainer(configurations: configuration)
             .edgesIgnoringSafeArea(.all)
     }
 }
