@@ -1,0 +1,17 @@
+{
+  "name": "Environmental Sensor Dataset",
+  "description": "This dataset simulates time series readings from environmental sensors tracking temperature, humidity, and CO₂ levels. It models fluctuations over time and includes optional category labels for zone or alert status.",
+  "data": [
+    { "time": 0, "temperature": 22.5, "humidity": 45.0, "co2": 410, "category": "Zone A" },
+    { "time": 1, "temperature": 22.7, "humidity": 44.8, "co2": 412, "category": "" },
+    { "time": 2, "temperature": 23.0, "humidity": 44.5, "co2": 415, "category": "" },
+    { "time": 3, "temperature": 23.4, "humidity": 44.2, "co2": 420, "category": "Zone B" },
+    { "time": 4, "temperature": 23.9, "humidity": 43.8, "co2": 428, "category": "" },
+    { "time": 5, "temperature": 24.5, "humidity": 43.3, "co2": 435, "category": "Alert" },
+    { "time": 6, "temperature": 25.0, "humidity": 42.7, "co2": 440, "category": "" },
+    { "time": 7, "temperature": 25.2, "humidity": 42.0, "co2": 445, "category": "" },
+    { "time": 8, "temperature": 25.1, "humidity": 41.5, "co2": 448, "category": "Zone C" },
+    { "time": 9, "temperature": 24.8, "humidity": 41.2, "co2": 450, "category": "" },
+    { "time": 10, "temperature": 24.3, "humidity": 41.0, "co2": 452, "category": "" }
+  ]
+}

@@ -1,4 +1,3 @@
-
 {
     "name": "Ideal conditions for vegetable growth",
     "description": "This dataset contains optimal growing conditions for 50 vegetables, categorized by growth type. Useful for clustering, classification, and AR visualization.",

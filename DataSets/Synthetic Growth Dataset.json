@@ -1,0 +1,32 @@
+
+{
+  "name": "Synthetic Growth Dataset",
+  "description": "This dataset simulates time series growth patterns across three dimensions: height, width, and depth. It models synthetic expansion over 30 time steps, with optional categorical labels to segment phases or types of growth.",
+  "data": [
+    { "time": 0, "height": 1.0, "width": 0.5, "depth": 0.2, "category": "seed" },
+    { "time": 1, "height": 1.2, "width": 0.6, "depth": 0.3, "category": "" },
+    { "time": 2, "height": 1.5, "width": 0.7, "depth": 0.4, "category": "" },
+    { "time": 3, "height": 1.9, "width": 0.9, "depth": 0.5, "category": "sprout" },
+    { "time": 4, "height": 2.4, "width": 1.1, "depth": 0.7, "category": "" },
+    { "time": 5, "height": 3.0, "width": 1.4, "depth": 0.9, "category": "" },
+    { "time": 6, "height": 3.7, "width": 1.8, "depth": 1.2, "category": "growth" },
+    { "time": 7, "height": 4.5, "width": 2.3, "depth": 1.6, "category": "" },
+    { "time": 8, "height": 5.4, "width": 2.9, "depth": 2.1, "category": "" },
+    { "time": 9, "height": 6.4, "width": 3.6, "depth": 2.7, "category": "mature" },
+    { "time": 10, "height": 7.5, "width": 4.4, "depth": 3.4, "category": "" },
+    { "time": 11, "height": 8.7, "width": 5.3, "depth": 4.2, "category": "" },
+    { "time": 12, "height": 10.0, "width": 6.3, "depth": 5.1, "category": "peak" },
+    { "time": 13, "height": 9.8, "width": 6.1, "depth": 5.0, "category": "" },
+    { "time": 14, "height": 9.5, "width": 5.8, "depth": 4.8, "category": "" },
+    { "time": 15, "height": 9.1, "width": 5.4, "depth": 4.5, "category": "decline" },
+    { "time": 16, "height": 8.6, "width": 5.0, "depth": 4.1, "category": "" },
+    { "time": 17, "height": 8.0, "width": 4.5, "depth": 3.6, "category": "" },
+    { "time": 18, "height": 7.3, "width": 4.0, "depth": 3.0, "category": "fade" },
+    { "time": 19, "height": 6.5, "width": 3.4, "depth": 2.4, "category": "" },
+    { "time": 20, "height": 5.6, "width": 2.8, "depth": 1.8, "category": "" },
+    { "time": 21, "height": 4.6, "width": 2.2, "depth": 1.2, "category": "dormant" },
+    { "time": 22, "height": 3.5, "width": 1.6, "depth": 0.7, "category": "" },
+    { "time": 23, "height": 2.3, "width": 1.0, "depth": 0.3, "category": "" },
+    { "time": 24, "height": 1.0, "width": 0.5, "depth": 0.1, "category": "reset" }
+  ]
+}
