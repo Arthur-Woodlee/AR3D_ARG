@@ -1,4 +1,3 @@
-
 {
   "name": "Synthetic Growth Dataset",
   "description": "This dataset simulates time series growth patterns across three dimensions: height, width, and depth. It models synthetic expansion over 30 time steps, with optional categorical labels to segment phases or types of growth.",
