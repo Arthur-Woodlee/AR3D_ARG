@@ -45,8 +45,8 @@ class BaseJSONValidator {
         }
 
         for (index, obj) in dataArray.enumerated() {
-            guard let category = obj["category"] as? String, !category.isEmpty else {
-                return .failure(.invalidStructure("Object at index \(index) missing valid 'category' field."))
+            guard let category = obj["category"] as? String else {
+                return .failure(.invalidStructure("Object at index \(index) missing 'category' field."))
             }
         }
 

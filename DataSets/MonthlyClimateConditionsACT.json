@@ -1,0 +1,18 @@
+{
+  "name": "Monthly Climate Conditions - Gungahlin, ACT",
+  "description": "This dataset provides average monthly climate conditions for Gungahlin, ACT, Australia. It includes temperature, sunlight hours, and estimated weekly water availability based on rainfall.",
+  "data": [
+    { "category": "January", "avgTemperature": 20.5, "sunHoursPerDay": 9.5, "rainfallPerWeek": 14.5 },
+    { "category": "February", "avgTemperature": 20.0, "sunHoursPerDay": 9.0, "rainfallPerWeek": 13.3 },
+    { "category": "March", "avgTemperature": 17.0, "sunHoursPerDay": 8.0, "rainfallPerWeek": 11.3 },
+    { "category": "April", "avgTemperature": 13.5, "sunHoursPerDay": 7.0, "rainfallPerWeek": 9.3 },
+    { "category": "May", "avgTemperature": 10.0, "sunHoursPerDay": 5.5, "rainfallPerWeek": 8.3 },
+    { "category": "June", "avgTemperature": 7.5, "sunHoursPerDay": 5.0, "rainfallPerWeek": 7.5 },
+    { "category": "July", "avgTemperature": 7.0, "sunHoursPerDay": 5.5, "rainfallPerWeek": 7.5 },
+    { "category": "August", "avgTemperature": 9.0, "sunHoursPerDay": 6.0, "rainfallPerWeek": 8.8 },
+    { "category": "September", "avgTemperature": 12.0, "sunHoursPerDay": 7.0, "rainfallPerWeek": 10.0 },
+    { "category": "October", "avgTemperature": 15.0, "sunHoursPerDay": 8.0, "rainfallPerWeek": 11.3 },
+    { "category": "November", "avgTemperature": 17.5, "sunHoursPerDay": 9.0, "rainfallPerWeek": 12.5 },
+    { "category": "December", "avgTemperature": 19.5, "sunHoursPerDay": 9.5, "rainfallPerWeek": 13.8 }
+  ]
+}
