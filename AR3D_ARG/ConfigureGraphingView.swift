@@ -57,7 +57,7 @@ struct ConfigureGraphingView: View {
         Group {
             if numericFeatures.count >= 3 {
                 VStack {
-                    Text("Data Points")
+                    Text("Select 2 or 3 Data Points")
                         .font(.headline)
                         .padding(.vertical, 8)
                         .padding(.horizontal)
@@ -83,7 +83,7 @@ struct ConfigureGraphingView: View {
     private var navigationButton: some View {
         Button(currentIndex < totalCount - 1 ? "Next Dataset" : "Visualise All") {
             let axisCount = selectedFeatures.filter { !categoricalFeatures.contains($0) }.count
-            guard let graph = selectedGraph, axisCount == 3,
+            guard let graph = selectedGraph, (2...3).contains(axisCount),
                   let selectedTheme = ThemeRegistry.all.first(where: { $0.id == selectedThemeID })?.theme else {
                 return
             }
@@ -108,7 +108,7 @@ struct ConfigureGraphingView: View {
         .background(Color.accentColor)
         .foregroundColor(.white)
         .cornerRadius(12)
-        .disabled(selectedGraph == nil || selectedFeatures.filter({ !categoricalFeatures.contains($0) }).count != 3)
+        .disabled(selectedGraph == nil || !(2...3).contains(selectedFeatures.filter({ !categoricalFeatures.contains($0) }).count))
     }
 }
 
@@ -254,7 +254,7 @@ struct FeatureSelectorView: View {
             // Categorical Feature Section
             if !categoricalFeatures.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Category(Optional)")
+                    Text("Category (Optional)")
                         .font(.subheadline)
 
                     ForEach(categoricalFeatures, id: \.self) { feature in
@@ -288,54 +288,49 @@ struct FeatureSelectorView: View {
 
             // Numeric Feature Section
             VStack(alignment: .leading, spacing: 8) {
-                VStack(alignment: .leading, spacing: 8) {
-                    let selectedNumericCount = selectedFeatures.filter { !categoricalFeatures.contains($0) }.count
-                    
-                    
-                    
-                    ForEach(numericFeatures, id: \.self) { feature in
-                        let isSelected = selectedFeatures.contains(feature)
-                        let isDisabled = !isSelected && selectedNumericCount >= maxSelection
-                        
-                        FeatureRowView(
-                            label: feature,
-                            isSelected: isSelected,
-                            isDisabled: isDisabled,
-                            bold: false
-                        ) {
-                            if isSelected {
-                                selectedFeatures.removeAll { $0 == feature }
-                            } else if selectedNumericCount < maxSelection {
-                                selectedFeatures.append(feature)
-                            }
-                        }
-                    }
-                    
-                    if selectedNumericCount < maxSelection {
-                        HStack {
-                            Spacer()
-                            Text("⚠️\nPlease select exactly \(maxSelection)\n   numeric features.")
-                                .font(.footnote)
-                                .foregroundColor(.red)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                            Spacer()
+                let selectedNumericCount = selectedFeatures.filter { !categoricalFeatures.contains($0) }.count
+
+                ForEach(numericFeatures, id: \.self) { feature in
+                    let isSelected = selectedFeatures.contains(feature)
+                    let isDisabled = !isSelected && selectedNumericCount >= maxSelection
+
+                    FeatureRowView(
+                        label: feature,
+                        isSelected: isSelected,
+                        isDisabled: isDisabled,
+                        bold: false
+                    ) {
+                        if isSelected {
+                            selectedFeatures.removeAll { $0 == feature }
+                        } else if selectedNumericCount < maxSelection {
+                            selectedFeatures.append(feature)
                         }
                     }
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color(.systemGray6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-                )
+
+                if selectedNumericCount < 2 {
+                    HStack {
+                        Spacer()
+                        Text("⚠️\nPlease select at least 2 numeric features.\nYou may select up to \(maxSelection).")
+                            .font(.footnote)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                        Spacer()
+                    }
+                }
             }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemGray6))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+            )
         }
         .padding()
     }
 }
-
 struct FeatureRowView: View {
     let label: String
     let isSelected: Bool
