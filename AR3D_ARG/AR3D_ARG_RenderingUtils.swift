@@ -79,6 +79,88 @@ struct AxisRenderer {
 }
 
 struct GridPlanesRenderer {
+    struct GridPlane: OptionSet {
+        let rawValue: Int
+
+        static let xy = GridPlane(rawValue: 1 << 0)
+        static let yz = GridPlane(rawValue: 1 << 1)
+        static let xz = GridPlane(rawValue: 1 << 2)
+        static let all: GridPlane = [.xy, .yz, .xz]
+    }
+
+    static func addGridPlanes(to node: SCNNode,
+                              minX: Decimal, maxX: Decimal,
+                              minY: Decimal, maxY: Decimal,
+                              minZ: Decimal, maxZ: Decimal,
+                              spacing: Float = 0.1,
+                              color: UIColor = .lightGray,
+                              planes: GridPlane = .all) {
+
+        let xRange = Float(truncating: (maxX - minX) as NSDecimalNumber)
+        let yRange = Float(truncating: (maxY - minY) as NSDecimalNumber)
+        let zRange = Float(truncating: (maxZ - minZ) as NSDecimalNumber)
+
+        if planes.contains(.xy) {
+            let xyPlane = SCNNode()
+            for x in stride(from: 0, through: xRange, by: spacing) {
+                let line = SCNBox(width: 0.001, height: CGFloat(yRange), length: 0.001, chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(x, yRange / 2, 0)
+                xyPlane.addChildNode(node)
+            }
+            for y in stride(from: 0, through: yRange, by: spacing) {
+                let line = SCNBox(width: CGFloat(xRange), height: 0.001, length: 0.001, chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(xRange / 2, y, 0)
+                xyPlane.addChildNode(node)
+            }
+            node.addChildNode(xyPlane)
+        }
+
+        if planes.contains(.yz) {
+            let yzPlane = SCNNode()
+            for y in stride(from: 0, through: yRange, by: spacing) {
+                let line = SCNBox(width: 0.001, height: 0.001, length: CGFloat(zRange), chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(0, y, zRange / 2)
+                yzPlane.addChildNode(node)
+            }
+            for z in stride(from: 0, through: zRange, by: spacing) {
+                let line = SCNBox(width: 0.001, height: CGFloat(yRange), length: 0.001, chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(0, yRange / 2, z)
+                yzPlane.addChildNode(node)
+            }
+            node.addChildNode(yzPlane)
+        }
+
+        if planes.contains(.xz) {
+            let xzPlane = SCNNode()
+            for x in stride(from: 0, through: xRange, by: spacing) {
+                let line = SCNBox(width: 0.001, height: 0.001, length: CGFloat(zRange), chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(x, 0, zRange / 2)
+                xzPlane.addChildNode(node)
+            }
+            for z in stride(from: 0, through: zRange, by: spacing) {
+                let line = SCNBox(width: CGFloat(xRange), height: 0.001, length: 0.001, chamferRadius: 0)
+                line.firstMaterial?.diffuse.contents = color
+                let node = SCNNode(geometry: line)
+                node.position = SCNVector3(xRange / 2, 0, z)
+                xzPlane.addChildNode(node)
+            }
+            node.addChildNode(xzPlane)
+        }
+    }
+}
+
+/*
+struct GridPlanesRenderer {
     static func addGridPlanes(to node: SCNNode,
                               minX: Decimal, maxX: Decimal,
                               minY: Decimal, maxY: Decimal,
@@ -145,7 +227,7 @@ struct GridPlanesRenderer {
         node.addChildNode(xzPlane)
     }
 }
-
+*/
 struct AxisHelpers {
     
     static func createAxisLabel(_ text: String, color: UIColor) -> SCNNode {

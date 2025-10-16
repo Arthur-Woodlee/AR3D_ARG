@@ -21,7 +21,7 @@ private func addAxesAndOptionalGrid(to node: SCNNode,
                                     xValues: [Decimal],
                                     yValues: [Decimal],
                                     zValues: [Decimal],
-                                    includeGrid: Bool) {
+                                    gridPlanes: GridPlanesRenderer.GridPlane = []) {
     let xKey = axisKeys[0]
     let yKey = axisKeys[1]
     let zKey = axisKeys.count >= 3 ? axisKeys[2] : nil
@@ -57,7 +57,7 @@ private func addAxesAndOptionalGrid(to node: SCNNode,
         zLabelText: zKey
     )
 
-    guard includeGrid else { return }
+    guard !gridPlanes.isEmpty else { return }
 
     GridPlanesRenderer.addGridPlanes(
         to: node,
@@ -65,7 +65,8 @@ private func addAxesAndOptionalGrid(to node: SCNNode,
         minY: minY, maxY: maxY,
         minZ: minZ, maxZ: maxZ,
         spacing: 0.1,
-        color: UIColor.systemGray4
+        color: UIColor.systemGray4,
+        planes: gridPlanes
     )
 }
 
@@ -121,12 +122,14 @@ private func buildScatterPlot3D(from configuration: GraphingConfiguration, inclu
     let yValues = rawPoints.compactMap { DecimalUtils.extractDecimal(from: $0, key: axisKeys[1]) }
     let zValues = axisKeys.count >= 3 ? rawPoints.compactMap { DecimalUtils.extractDecimal(from: $0, key: axisKeys[2]) } : []
 
+    let gridPlanes: GridPlanesRenderer.GridPlane = includeGrid ? .all : []
+
     addAxesAndOptionalGrid(to: node,
                            axisKeys: axisKeys,
                            xValues: xValues,
                            yValues: yValues,
                            zValues: zValues,
-                           includeGrid: includeGrid)
+                           gridPlanes: gridPlanes)
 
     return (node, map)
 }
@@ -166,12 +169,15 @@ private func buildScatterPlot2D(from configuration: GraphingConfiguration, inclu
         theme: theme
     )
 
+    let gridPlanes: GridPlanesRenderer.GridPlane = includeGrid ? [.xy] : []
+
     addAxesAndOptionalGrid(to: node,
-                           axisKeys: axisKeys, // Only X and Y
+                           axisKeys: axisKeys,
                            xValues: xValues,
                            yValues: yValues,
-                           zValues: [],        // No Z axis
-                           includeGrid: includeGrid)
+                           zValues: [],
+                           gridPlanes: gridPlanes)
+
     return (node, map)
 }
 
